@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    env: production
+  name: node-deployment
+spec:
+  replicas: 4
+  template:
+    spec:
+      containers:
+      - name: node-app        
+        env:
+          - name: NODE_ENV
+            value: production
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"

@@ -5,7 +5,7 @@ metadata:
     app: node-app
   name: node-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: node-app
@@ -17,12 +17,5 @@ spec:
       containers:
       - name: node-app
         image: miroirs/node_devops:0.0.1
-        env:
-          - name: NODE_ENV
-            value: production
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
         ports:
         - containerPort: 3000

@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: node-service
   labels:
-    name: node-app
+    app: node-app
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: node-app
   ports:
