@@ -1,2 +1,2 @@
 # node_gitops
-kubernetes configurations manifest repository for node app(node_devops)
+kubernetes configurations manifest repository for node-app(node_devops)
