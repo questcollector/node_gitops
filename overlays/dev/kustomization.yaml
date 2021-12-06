@@ -1,6 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-bases:
-  - ../../base
 patchesStrategicMerge:
-  - deployment-patch.yaml
+- deployment-patch.yaml
+resources:
+- ../../base
+images:
+- name: miroirs/node_devops
+  newTag: 65a8a53a
