@@ -62,6 +62,25 @@
 ## 3. jenkins 구성(jenkins를 docker로 구성했을 경우)
   - jenkins Dockerfile을 이용하여 kustomize 설치
   ``` Dockerfile
+  FROM jenkins/jenkins:latest AS docker
+  USER root
+  RUN apt-get update && apt-get install -y lsb-release
+  RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
+    https://download.docker.com/linux/debian/gpg
+  RUN echo "deb [arch=$(dpkg --print-architecture) \
+    signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
+    https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+  RUN apt-get update && apt-get install -y docker-ce-cli
+
+  FROM docker AS kustomize
+  WORKDIR /usr/bin/
+  RUN curl --silent --location --remote-name https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.4.1/kustomize_v4.4.1_linux_arm64.tar.gz
+  RUN tar -xzf kustomize_v4.4.1_linux_arm64.tar.gz
+
+  FROM kustomize AS jenkins
+  USER jenkins
+  RUN jenkins-plugin-cli --plugins "docker-workflow:1.26"
   ```
   - devops repository의 Jenkinsfile 구성(Stage: Deploy to gitOps Repository)
   <br> https://github.com/questcollector/node_devops/blob/master/Jenkinsfile
@@ -81,4 +100,8 @@
   Path: overlays/dev/
   Cluster: https://kubernetes.default.svc
   Namespace: node-app
+  ```
+## 5. minikube service open
+  ``` sh
+  nohup minikube service --url node-service -n node-app &
   ```
