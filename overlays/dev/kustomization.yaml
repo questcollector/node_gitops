@@ -6,4 +6,4 @@ resources:
 - ../../base
 images:
 - name: miroirs/node_devops
-  newTag: d8dfbe7e
+  newTag: 131a3549
